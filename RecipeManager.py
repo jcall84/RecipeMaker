@@ -13,6 +13,12 @@ class RecipeManager(DB.DB):
     def create_tables(self):
         """Creates the necessary tables if they don't already exist."""
         self.execute_script("""
+            CREATE TABLE IF NOT EXISTS categories (
+                id INTEGER PRIMARY KEY,
+                name TEXT NOT NULL UNIQUE
+            )
+        """)
+        self.execute_script("""
             CREATE TABLE IF NOT EXISTS recipes (
                 id INTEGER PRIMARY KEY,
                 name TEXT NOT NULL,
@@ -28,12 +34,6 @@ class RecipeManager(DB.DB):
                 name TEXT NOT NULL,
                 quantity TEXT NOT NULL,
                 FOREIGN KEY (recipe_id) REFERENCES recipes (id)
-            )
-        """)
-        self.execute_script("""
-            CREATE TABLE IF NOT EXISTS categories (
-                id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL UNIQUE
             )
         """)
         self.conn.commit()
@@ -55,6 +55,7 @@ class RecipeManager(DB.DB):
             self.execute_script("""
                 INSERT INTO ingredients (recipe_id, name, quantity) VALUES (?, ?, ?)
             """, (recipe_id, ingredient['name'], ingredient['quantity']))
+        self.conn.commit()
 
     def get_recipe_by_id(self, recipe_id):
         """Fetches a recipe and its ingredients by ID."""
@@ -113,9 +114,10 @@ class RecipeManager(DB.DB):
     def list_all_recipes_with_ingredients(self):
         """Lists all recipes and their ingredients from the database."""
         self.cursor.execute("""
-        SELECT r.id, r.name, r.category, r.instructions, i.name, i.quantity
+        SELECT r.id, r.name, c.name as category, r.instructions, i.name, i.quantity
         FROM recipes r
         LEFT JOIN ingredients i ON r.id = i.recipe_id
+        JOIN categories c ON r.category_id = c.id
         ORDER BY r.id
         """)
         rows = self.cursor.fetchall()

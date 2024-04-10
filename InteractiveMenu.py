@@ -1,5 +1,6 @@
-import sqlite3
+import csv
 import RecipeManager
+
 class InteractiveMenu:
     def __init__(self):
         self.manager = RecipeManager.RecipeManager()
@@ -14,6 +15,8 @@ class InteractiveMenu:
         5. List Recipes by Ingredient
         6. List All Recipes
         7. List All Categories
+        8. Populate Database from File
+        9. Reset/Initialize Database
         0. Exit
         """)
 
@@ -44,6 +47,7 @@ class InteractiveMenu:
         print("Recipe deleted successfully!")
 
     def list_recipes_by_category(self):
+        print("Categories:", self.manager.list_all_categories())
         category = input("Enter category to list: ")
         recipes = self.manager.list_recipes_by_category(category)
         if recipes:
@@ -72,6 +76,20 @@ class InteractiveMenu:
         else:
             print("No recipes found.")
 
+    def populate_database_from_file(self, filename):
+        """Populates the database with recipes, categories, ingredients from a file."""
+        try:
+            with open(filename, "r") as file:
+                for line in file:
+                    data = line.strip().split("|")
+                    name, category, instructions, *ingredients = data
+                    ingredients = ingredients[0].split(",")
+                    ingredients = [{'name': ingredient.split(":")[0].strip(), 'quantity': ingredient.split(":")[1].strip()} for ingredient in ingredients]
+                    self.manager.add_recipe(name, category, instructions, ingredients)
+            print("Database populated successfully!")
+        except FileNotFoundError:
+            print(f"File {filename} not found.")
+
     def list_all_categories(self):
         categories = self.manager.list_all_categories()
         print("Categories:")
@@ -96,6 +114,10 @@ class InteractiveMenu:
                 self.list_all_recipes()
             elif choice == '7':
                 self.list_all_categories()
+            elif choice == '8':
+                self.populate_database_from_file("recipes.txt")
+            elif choice == '9':
+                self.manager.reset_database()
             elif choice == '0':
                 self.manager.close()
                 print("Exiting... Goodbye!")
