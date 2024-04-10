@@ -13,8 +13,8 @@ class DB:
         self.conn = sqlite3.connect(self.db_name)
         self.cursor = self.conn.cursor()
 
-    def execute_script(self, sql_string):
-        self.cursor.executescript(sql_string)
+    def execute_script(self, sql_string, params=()):
+        self.cursor.execute(sql_string, params)
 
     def reset_database(self):
         raise NotImplementedError("Must implement from the derived class")

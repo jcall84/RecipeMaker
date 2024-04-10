@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from RecipeManager.RecipeMaker.RecipeManagerDB import RecipeManagerDB
-from RecipeManagerUI import RecipeManagerUI
+from RecipeManager.RecipeMaker.RecipeManager import RecipeManagerDB
+
 
 class Main:
     def __init__(self):
@@ -62,6 +62,4 @@ if __name__ == "__main__":
     demo = Main()
     demo.run_demo()
 
-    root = tk.Tk()
-    app = RecipeManagerUI(root)
-    root.mainloop()
+
