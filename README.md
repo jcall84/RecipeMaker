@@ -10,7 +10,7 @@ The main files in this repository are:
 - `RecipeManager.py`: This file contains the `RecipeManager` class, which inherits from the `DB` class and provides the requisite methods for managing recipes.
 - `InteractiveMenu.py`: This is the main file that should be run to test the implementation. It provides the user with an interactive menu for managing the database of recipes, `recipes.db`.
 - `recipes.txt`: This is a text file that can be used to populate the DB with an assortment of recipes. Recipes are delimited with a `|` character, and the ingredients fields are separated by a `:` character. The fields are as follows: Recipe Name, Category, Description, Ingredients. For example:
-    - Spaghetti and Meatballs|Dinner|Simmer meatballs in marinara sauce, serve over cooked pasta.|Pasta: 400g, Ground Beef: 500g, Bread Crumbs: 1/2 cup, Egg: 1, Tomato Sauce: 2 cups
+    - `Spaghetti and Meatballs|Dinner|Simmer meatballs in marinara sauce, serve over cooked pasta.|Pasta: 400g, Ground Beef: 500g, Bread Crumbs: 1/2 cup, Egg: 1, Tomato Sauce: 2 cups`
 
 
 ## How to Run
@@ -28,7 +28,7 @@ cd RecipeMaker-main
 python InteractiveMenu.py
 ```
 
-## Expected Outputs
+## Expected Output
 
 When you run the `InteractiveMenu.py` file, it will interact with the SQLite database to manage recipes. You can add, update, delete, and retrieve recipes. 
 
@@ -36,17 +36,20 @@ When you run the `InteractiveMenu.py` file, it will interact with the SQLite dat
 ```
 python InteractiveMenu.py 
 
+        *************************
         Recipe Manager Menu
-        1. Add Recipe
-        2. Update Recipe
-        3. Delete Recipe
-        4. List Recipes by Category
-        5. List Recipes by Ingredient
-        6. List All Recipes
-        7. List All Categories
-        8. Populate Database from File
-        9. Reset/Initialize Database
-        0. Exit
+            1. Add Recipe
+            2. Update Recipe
+            3. Delete Recipe
+            4. List Recipe by ID
+            5. List Recipes by Category
+            6. List Recipes by Ingredient
+            7. List All Recipes
+            8. List All Categories
+            9. Populate Database from File
+            10. Reset/Initialize Database 
+            11. Exit
+        *************************
         
-Enter your choice: 
+Enter choice: 
 ```

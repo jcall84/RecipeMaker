@@ -43,6 +43,5 @@ Chicken Parmesan|Dinner|Bread chicken, bake, top with marinara and cheese, bake 
 Gazpacho|Lunch|Blend ingredients, chill, serve with toppings.|Tomato: 1kg, Cucumber: 1, Bell Pepper: 1, Onion: 1, Garlic: 2 cloves
 Beef Stir Fry|Dinner|Stir fry beef and vegetables in sauce, serve over rice.|Flank Steak: 500g, Broccoli: 1 head, Bell Pepper: 1, Soy Sauce: 1/4 cup, Hoisin: 2 tbsp
 Apple Pie|Dessert|Mix filling, bake with crust until golden.|Apple: 6, Flour: 1/4 cup, Sugar: 1/2 cup, Cinnamon: 1 tsp, Pie Crust: 2
-Pancakes|Breakfast|Mix ingredients, cook on griddle, serve with syrup.|Flour: 2 cups, Milk: 2 cups, Egg: 2, Baking Powder: 4 tsp, Butter: 1/4 cup
 Chicken Fajitas|Dinner|Sauté chicken and vegetables, serve with tortillas and toppings.|Chicken Breast: 2, Bell Pepper: 1, Onion: 1, Tortilla: 4, Sour Cream: 1/2 cup
 Chocolate Mousse|Dessert|Melt chocolate, fold in whipped cream, chill.|Chocolate: 200g, Cream: 1 cup, Sugar: 2 tbsp, Egg: 2

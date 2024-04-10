@@ -1,7 +1,3 @@
-# Recipe Creator and Manager - Create a recipe application with ingredients
-# and a put them in a recipe manager program that organizes them into categories like deserts,
-# main courses or by ingredients like chicken, beef, soups, pies etc.
-
 import DB
 
 
@@ -11,7 +7,7 @@ class RecipeManager(DB.DB):
         self.create_tables()
 
     def create_tables(self):
-        """Creates the necessary tables if they don't already exist."""
+        """Creates the tables 'categories', 'recipes', and 'ingredients' if they don't already exist."""
         self.execute_script("""
             CREATE TABLE IF NOT EXISTS categories (
                 id INTEGER PRIMARY KEY,
@@ -66,16 +62,16 @@ class RecipeManager(DB.DB):
         return {"recipe": recipe, "ingredients": ingredients}
 
     def get_recipe_by_ingredient(self, ingredient):
-        """Fetches a recipe by ingredient."""
+        """Fetches a recipe by ingredient. Case-insensitive search."""
         self.execute_script("""
             SELECT r.* FROM recipes r
             JOIN ingredients i ON r.id = i.recipe_id
-            WHERE i.name = ?
+            WHERE LOWER(i.name) = LOWER(?) 
         """, (ingredient,))
         return self.cursor.fetchall()
 
     def update_recipe(self, recipe_id, name=None, category=None, instructions=None):
-        """Updates recipe details based on provided information."""
+        """Updates recipe details based on user-provided details."""
         updates = []
         params = []
         if name:
@@ -98,16 +94,22 @@ class RecipeManager(DB.DB):
 
     def delete_recipe(self, recipe_id):
         """Deletes a recipe and its associated ingredients."""
-        self.execute_script("DELETE FROM ingredients WHERE recipe_id = ?", (recipe_id,))
-        self.execute_script("DELETE FROM recipes WHERE id = ?", (recipe_id,))
-        self.conn.commit()
+        # Check if recipe exists
+        if self.execute_script("SELECT * FROM recipes WHERE id = ?", (recipe_id,)) == []:
+            print("Recipe not found.")
+            return
+        else:
+            self.execute_script("DELETE FROM ingredients WHERE recipe_id = ?", (recipe_id,))
+            self.execute_script("DELETE FROM recipes WHERE id = ?", (recipe_id,))
+            self.conn.commit()
+            print("Recipe deleted successfully!")
 
     def list_recipes_by_category(self, category):
         """Lists all recipes within a specific category."""
         self.execute_script("""
             SELECT r.* FROM recipes r
             JOIN categories c ON r.category_id = c.id
-            WHERE c.name = ?
+            WHERE LOWER(c.name) = LOWER(?)
         """, (category,))
         return self.cursor.fetchall()
 
@@ -145,8 +147,5 @@ class RecipeManager(DB.DB):
         self.execute_script("DROP TABLE IF EXISTS ingredients")
         self.execute_script("DROP TABLE IF EXISTS categories")
         self.create_tables()
-
-    def close(self):
-        """Closes the database connection."""
-        self.conn.close()
+        print("Database reset successfully.")
 
