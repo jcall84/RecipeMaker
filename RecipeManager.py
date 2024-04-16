@@ -78,14 +78,22 @@ class RecipeManager(DB.DB):
             updates.append("name = ?")
             params.append(name)
         if category:
-            updates.append("category = ?")
-            params.append(category)
+            try:
+                self.execute_script("SELECT category FROM recipes")
+                updates.append("category = ?")
+                params.append(category)
+            except Exception as e:
+                print("The 'category' column does not exist in the 'recipes' table.")
         if instructions:
             updates.append("instructions = ?")
             params.append(instructions)
         params.append(recipe_id)
-        self.execute_script(f"UPDATE recipes SET {', '.join(updates)} WHERE id = ?", params)
-        self.conn.commit()
+        if updates:
+            self.execute_script(f"UPDATE recipes SET {', '.join(updates)} WHERE id = ?", params)
+            self.conn.commit()
+            print("Recipe updated successfully!")
+        else:
+            print("No updates provided.")
 
     def list_all_categories(self):
         """Lists all categories in the database."""
